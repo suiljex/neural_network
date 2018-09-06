@@ -25,45 +25,14 @@ class Neuron
 public:
   Neuron();
 
-  int Process()
-  {
-    double input_X = 0;
-
-    std::vector<NConnection>::iterator it = connections.begin();
-    for (; it != connections.end(); ++it)
-    {
-      if (it->source_pointer != nullptr)
-      {
-        input_X += it->source_pointer->GetResult() * it->weight;
-      }
-    }
-    result = ProcFunc(input_X);
-    return 0;
-  }
-
-  int AddConnection(NConnection i_connection)
-  {
-    connections.push_back(i_connection);
-    return 0;
-  }
-
-  double GetResult()
-  {
-    return result;
-  }
-
-  int ForceSetResult(double i_result)
-  {
-    result = i_result;
-    return 0;
-  }
+  int Process();
+  int AddConnection(NConnection i_connection);
+  double GetResult();
+  int ForceSetResult(double i_result);
 
 private:
 
-  double ProcFunc(double i_input_X)
-  {
-    return i_input_X;
-  }
+  double ProcFunc(double i_input_X);
 
   int id;
   double result;
