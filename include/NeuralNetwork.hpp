@@ -20,6 +20,7 @@ public:
 protected:
   int LevelAdd();
   int LevelDel();
+  double RandGenWeight();
 
   std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
 };

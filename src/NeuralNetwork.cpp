@@ -55,7 +55,7 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
       {
         NConnection new_connection;
         new_connection.source_pointer = *ij;
-        new_connection.weight = 0.5; //rand()/RAND_MAX;
+        new_connection.weight = RandGenWeight();
 
         new_neuron->AddConnection(new_connection);
       }
@@ -82,7 +82,7 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
   {
     NConnection new_connection;
     new_connection.source_pointer = *im;
-    new_connection.weight = 0.5;
+    new_connection.weight = RandGenWeight();
 
     output_neuron->AddConnection(new_connection);
   }
@@ -104,4 +104,9 @@ int NeuralNetwork::LevelDel()
 {
   levels.pop_back();
   return 0;
+}
+
+double NeuralNetwork::RandGenWeight()
+{
+  return ((double) rand() / (RAND_MAX));
 }

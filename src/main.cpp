@@ -12,13 +12,13 @@ int main(int /*argc*/, char **/*argv*/)
   input_neurons.push_back(input_1);
   input_neurons.push_back(input_2);
 
-  double result;
+  double result = 0;
 
   vector<int> config;
+  config.push_back(2);
+  config.push_back(4);
   config.push_back(3);
-  //config.push_back(4);
-  //config.push_back(3);
-  //config.push_back(1);
+  config.push_back(1);
 
   n_net.InitNeuralNetworkRandType1(input_neurons, config);
   input_1->SetResult(100);

@@ -1,4 +1,7 @@
 #include "NeuronHidden.hpp"
+#include <math.h>
+
+const double alpha = 0.5;
 
 NeuronHidden::NeuronHidden()
 {
@@ -39,5 +42,5 @@ int NeuronHidden::SetResult(double /*i_result*/)
 
 double NeuronHidden::ProcFunc(double i_input_X)
 {
-  return i_input_X;
+  return (1. / (1. + exp(-1. * alpha * i_input_X)));
 }
