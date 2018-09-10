@@ -20,22 +20,22 @@ double NeuralNetwork::Process()
     max_j = levels[i].size();
     for (j = 0; j < max_j; ++j)
     {
-      levels[i][j].Process();
+      levels[i][j]->Process();
     }
   }
 
-  result = levels[i - 1][j - 1].GetResult();
+  result = levels[i - 1][j - 1]->GetResult();
 
   return result;
 }
 
-int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<Neuron *> i_input_neurons, std::vector<int> i_network_config)
+int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config)
 {
-  std::vector<Neuron*> pointers;
+  std::vector<std::shared_ptr<NeuronBase>> pointers;
   int temp_i;
   //int temp_j;
 
-  std::vector<Neuron*>::iterator ik = i_input_neurons.begin();
+  std::vector<std::shared_ptr<NeuronBase>>::iterator ik = i_input_neurons.begin();
   for (; ik != i_input_neurons.end(); ++ik)
   {
     pointers.push_back(*ik);
@@ -48,16 +48,16 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<Neuron *> i_input_neur
     temp_i = levels.size() - 1;
     for (int i = 0; i < *it; ++i)
     {
-      Neuron new_neuron;
+      std::shared_ptr<NeuronBase> new_neuron(new NeuronHidden);
 
-      std::vector<Neuron*>::iterator ij = pointers.begin();
+      std::vector<std::shared_ptr<NeuronBase>>::iterator ij = pointers.begin();
       for (; ij != pointers.end(); ++ij)
       {
         NConnection new_connection;
         new_connection.source_pointer = *ij;
         new_connection.weight = 0.5; //rand()/RAND_MAX;
 
-        new_neuron.AddConnection(new_connection);
+        new_neuron->AddConnection(new_connection);
       }
 
       levels[temp_i].push_back(new_neuron);
@@ -65,26 +65,26 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<Neuron *> i_input_neur
 
     pointers.clear();
 
-    std::vector<Neuron>::iterator il = levels[temp_i].begin();
+    std::vector<std::shared_ptr<NeuronBase>>::iterator il = levels[temp_i].begin();
     for (; il != levels[temp_i].end(); ++il)
     {
-      pointers.push_back(&*il);
+      pointers.push_back(*il);
     }
   }
 
   LevelAdd();
   temp_i = levels.size() - 1;
 
-  Neuron output_neuron;
+  std::shared_ptr<NeuronBase> output_neuron(new NeuronOutput);
 
-  std::vector<Neuron*>::iterator im = pointers.begin();
+  std::vector<std::shared_ptr<NeuronBase>>::iterator im = pointers.begin();
   for (; im != pointers.end(); ++im)
   {
     NConnection new_connection;
     new_connection.source_pointer = *im;
     new_connection.weight = 0.5;
 
-    output_neuron.AddConnection(new_connection);
+    output_neuron->AddConnection(new_connection);
   }
 
   levels[temp_i].push_back(output_neuron);
@@ -94,7 +94,7 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<Neuron *> i_input_neur
 
 int NeuralNetwork::LevelAdd()
 {
-  std::vector<Neuron> new_level;
+  std::vector<std::shared_ptr<NeuronBase>> new_level;
   levels.push_back(new_level);
 
   return 0;

@@ -3,7 +3,11 @@
 
 #include <vector>
 #include <cstdlib>
-#include "Neuron.hpp"
+#include <memory>
+#include "NeuronBase.hpp"
+#include "NeuronInput.hpp"
+#include "NeuronOutput.hpp"
+#include "NeuronHidden.hpp"
 
 
 class NeuralNetwork
@@ -11,13 +15,13 @@ class NeuralNetwork
 public:
   NeuralNetwork();
   double Process();
-  int InitNeuralNetworkRandType1(std::vector<Neuron*> i_input_neurons, std::vector<int> i_network_config);
+  int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
 
 protected:
   int LevelAdd();
   int LevelDel();
 
-  std::vector<std::vector<Neuron>> levels;
+  std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
 };
 
 #endif // NEURALNETWORK_HPP

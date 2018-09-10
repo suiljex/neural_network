@@ -1,11 +1,11 @@
-#include "Neuron.hpp"
+#include "NeuronOutput.hpp"
 
-Neuron::Neuron()
+NeuronOutput::NeuronOutput()
 {
 
 }
 
-int Neuron::Process()
+int NeuronOutput::Process()
 {
   double input_X = 0;
 
@@ -21,24 +21,23 @@ int Neuron::Process()
   return 0;
 }
 
-int Neuron::AddConnection(NConnection i_connection)
+double NeuronOutput::ProcFunc(double i_input_X)
 {
-  connections.push_back(i_connection);
-  return 0;
+  return i_input_X;
 }
 
-double Neuron::GetResult()
+double NeuronOutput::GetResult()
 {
   return result;
 }
 
-int Neuron::ForceSetResult(double i_result)
+int NeuronOutput::SetResult(double /*i_result*/)
 {
-  result = i_result;
   return 0;
 }
 
-double Neuron::ProcFunc(double i_input_X)
+int NeuronOutput::AddConnection(NConnection i_connection)
 {
-  return i_input_X;
+  connections.push_back(i_connection);
+  return 0;
 }
