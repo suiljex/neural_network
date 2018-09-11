@@ -29,11 +29,40 @@ double NeuralNetwork::Process()
   return result;
 }
 
+int NeuralNetwork::ProcessData()
+{
+  int temp_i;
+  int temp_j;
+  int temp_i_max = input_data.size();
+  int temp_j_max = input_data[0].size();
+
+  double result = 0;
+
+  for (temp_j = 0; temp_j < temp_j_max; ++temp_j)
+  {
+    for (temp_i = 0; temp_i < temp_i_max; ++temp_i)
+    {
+      input_neurons[temp_i]->SetResult(Normalize(input_data[temp_i][temp_j], min_max[temp_i]));
+    }
+    result = Process();
+    results.push_back(result);
+  }
+
+  return 0;
+}
+
 int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config)
 {
   std::vector<std::shared_ptr<NeuronBase>> pointers;
   int temp_i;
   //int temp_j;
+
+  input_neurons = i_input_neurons;
+  for (unsigned int i = 0; i < input_neurons.size(); ++i)
+  {
+    std::vector<double> temp_data_for_input_neuron;
+    input_data.push_back(temp_data_for_input_neuron);
+  }
 
   std::vector<std::shared_ptr<NeuronBase>>::iterator ik = i_input_neurons.begin();
   for (; ik != i_input_neurons.end(); ++ik)
@@ -92,6 +121,18 @@ int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
   return 0;
 }
 
+int NeuralNetwork::AddData(std::vector<double>& i_data)
+{
+  if (input_data.size() == i_data.size())
+  {
+    for (unsigned int i = 0; i < input_data.size(); ++i)
+    {
+      input_data[i].push_back(i_data[i]);
+    }
+  }
+  return 0;
+}
+
 int NeuralNetwork::LevelAdd()
 {
   std::vector<std::shared_ptr<NeuronBase>> new_level;
@@ -108,5 +149,46 @@ int NeuralNetwork::LevelDel()
 
 double NeuralNetwork::RandGenWeight()
 {
-  return ((double) rand() / (RAND_MAX));
+  double temp_min = 5;
+  double temp_max = -5;
+  double part_first;
+  double result;
+
+  part_first = (double) rand() / (RAND_MAX);
+  result = temp_min + part_first * (temp_max - temp_min);
+  return result;
+}
+
+double NeuralNetwork::Normalize(double i_data, MinMax &i_min_max)
+{
+  return (i_data - i_min_max.minimum) / (i_min_max.maximum - i_min_max.minimum);
+}
+
+int NeuralNetwork::CalculateNormRatio()
+{
+  int temp_i;
+  int temp_j;
+  int temp_i_max = input_data.size();
+  int temp_j_max;
+  double temp_data_min = DBL_MAX;
+  double temp_data_max = DBL_MIN;
+
+  min_max.clear();
+  for (temp_i = 0; temp_i < temp_i_max; ++temp_i)
+  {
+    temp_j_max = input_data[temp_i].size();
+    for (temp_j = 0; temp_j < temp_j_max; ++temp_j)
+    {
+      if (input_data[temp_i][temp_j] < temp_data_min)
+      {
+        temp_data_min = input_data[temp_i][temp_j];
+      }
+      if (input_data[temp_i][temp_j] > temp_data_max)
+      {
+        temp_data_max = input_data[temp_i][temp_j];
+      }
+    }
+    min_max.push_back(MinMax(temp_data_min, temp_data_max));
+  }
+  return 0;
 }
