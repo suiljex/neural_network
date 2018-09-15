@@ -23,9 +23,9 @@ int main(int /*argc*/, char **/*argv*/)
 
   vector<int> config;
   config.push_back(2);
-  config.push_back(4);
-  config.push_back(3);
-  config.push_back(1);
+  config.push_back(40);
+  config.push_back(30);
+  config.push_back(10);
 
   n_net.InitNeuralNetworkRandType1(input_neurons, config);
   d_parser.InputFileParse(n_net);

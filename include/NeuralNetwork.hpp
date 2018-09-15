@@ -5,71 +5,63 @@
 #include <cstdlib>
 #include <float.h>
 #include <memory>
-#include "NeuronBase.hpp"
-#include "NeuronInput.hpp"
-#include "NeuronOutput.hpp"
-#include "NeuronHidden.hpp"
+
 #include "Normalizer.hpp"
-
-typedef struct DataBundle
-{
-public:
-  DataBundle();
-
-  std::vector<double> data;
-  Normalizer normalizer;
-
-} DBundle;
-
-struct DataStorage
-{
-public:
-  DataStorage();
-
-  std::vector<std::vector<DBundle>> input_data;
-  std::vector<DBundle> results;
-  std::vector<double> expected_results;
-};
+#include "ComputingUnit.hpp"
 
 class NeuralNetwork
 {
 public:
-  NeuralNetwork();
-  double Process();
-  int ProcessData();
-  int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
-  int AddData(std::vector<double>& i_data);
-  int AddData(std::vector<double>& i_data, double i_expected_result);
-  int GetInputNeuronsAmount()
+  NeuralNetwork()
   {
-    return input_neurons.size();
+    default_normalizer.SetLimits(-20, 20);
   }
 
+  int ProcessData();
+  int AddData(std::vector<double>& i_data);
+  int AddData(std::vector<double>& i_data, double i_expected_result);
+  int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config)
+  {
+    input_data.clear();
+    for (unsigned int i = 0; i < i_input_neurons.size(); ++i)
+    {
+      std::vector<double> temp_data_for_input_neuron;
+      input_data.push_back(temp_data_for_input_neuron);
+    }
+
+    return computing_unit.InitNeuralNetworkRandType1(i_input_neurons, i_network_config);
+  }
+  int GetInputNeuronsAmount()
+  {
+    return computing_unit.GetInputNeuronsAmount();
+  }
   std::vector<double> GetResults()
   {
-    return results;
+    std::vector<double> temp_results;
+    temp_results = results;
+    default_normalizer.NormalizeDataUp(temp_results);
+    return temp_results;
   }
   std::vector<double> GetErrors()
   {
-    return errors;
+    std::vector<double> temp_result;
+    temp_result = errors;
+    default_normalizer.NormalizeDataUp(temp_result);
+    return temp_result;
   }
 
 protected:
-  int LevelAdd();
-  int LevelDel();
-  double RandGenWeight();
 
-  std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
-  std::vector<std::shared_ptr<NeuronBase>> input_neurons;
+  ComputingUnit computing_unit;
+  Normalizer default_normalizer;
 
   std::vector<std::vector<double>> input_data;
-  std::vector<Normalizer> input_data_normalizers;
 
   std::vector<double> expected_results;
   std::vector<double> results;
-  Normalizer results_normalizer;
 
   std::vector<double> errors;
 };
+
 
 #endif // NEURALNETWORK_HPP
