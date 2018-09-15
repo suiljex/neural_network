@@ -15,7 +15,7 @@ public:
   double Process();
   int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
   int AddDataToInput(std::vector<double>& i_data);
-  int GetInputNeuronsAmount()
+  unsigned int GetInputNeuronsAmount()
   {
     return input_neurons.size();
   }

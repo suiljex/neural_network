@@ -37,6 +37,14 @@ public:
   int CalculateLimits(std::vector<double>& i_data);
   int NormalizeDataDown(std::vector<double>& d_data);
   int NormalizeDataUp(std::vector<double>& d_data);
+  double NormalizeSingleDataDown(double i_data)
+  {
+    return (i_data - limits.minimum) / (limits.maximum - limits.minimum);
+  }
+  double NormalizeSingleDataUp(double i_data)
+  {
+    return i_data * (limits.maximum - limits.minimum) + limits.minimum;
+  }
 
 protected:
 

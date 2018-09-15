@@ -18,18 +18,18 @@ int main(int /*argc*/, char **/*argv*/)
   input_neurons.push_back(input_1);
   input_neurons.push_back(input_2);
 
-  double result = 0;
   std::vector<double> data;
 
   vector<int> config;
   config.push_back(2);
-  config.push_back(40);
-  config.push_back(30);
-  config.push_back(10);
+  config.push_back(4);
+  config.push_back(3);
+  config.push_back(2);
 
   n_net.InitNeuralNetworkRandType1(input_neurons, config);
   d_parser.InputFileParse(n_net);
-  result = n_net.ProcessData();
+  n_net.ProcessData();
+  data = n_net.GetResults();
 
   return 0;
 }
