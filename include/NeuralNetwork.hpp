@@ -9,22 +9,27 @@
 #include "NeuronInput.hpp"
 #include "NeuronOutput.hpp"
 #include "NeuronHidden.hpp"
+#include "Normalizer.hpp"
 
-typedef struct MinimumMaximux
+typedef struct DataBundle
 {
-  MinimumMaximux()
-  {
-    minimum = 0;
-    maximum = 0;
-  }
-  MinimumMaximux(double i_min, double i_max)
-  {
-    minimum = i_min;
-    maximum = i_max;
-  }
-  double minimum;
-  double maximum;
-} MinMax;
+public:
+  DataBundle();
+
+  std::vector<double> data;
+  Normalizer normalizer;
+
+} DBundle;
+
+struct DataStorage
+{
+public:
+  DataStorage();
+
+  std::vector<std::vector<DBundle>> input_data;
+  std::vector<DBundle> results;
+  std::vector<double> expected_results;
+};
 
 class NeuralNetwork
 {
@@ -34,22 +39,37 @@ public:
   int ProcessData();
   int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
   int AddData(std::vector<double>& i_data);
-  int CalculateNormRatio();
+  int AddData(std::vector<double>& i_data, double i_expected_result);
+  int GetInputNeuronsAmount()
+  {
+    return input_neurons.size();
+  }
 
-  //int SetInputData()
+  std::vector<double> GetResults()
+  {
+    return results;
+  }
+  std::vector<double> GetErrors()
+  {
+    return errors;
+  }
 
 protected:
   int LevelAdd();
   int LevelDel();
   double RandGenWeight();
-  double Normalize(double i_data, MinMax& i_min_max);
 
   std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
   std::vector<std::shared_ptr<NeuronBase>> input_neurons;
-  std::vector<std::vector<double>> input_data;
-  std::vector<double> results;
-  std::vector<MinMax> min_max;
 
+  std::vector<std::vector<double>> input_data;
+  std::vector<Normalizer> input_data_normalizers;
+
+  std::vector<double> expected_results;
+  std::vector<double> results;
+  Normalizer results_normalizer;
+
+  std::vector<double> errors;
 };
 
 #endif // NEURALNETWORK_HPP

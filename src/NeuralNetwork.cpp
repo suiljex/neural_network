@@ -1,5 +1,7 @@
 #include "NeuralNetwork.hpp"
 
+#include <math.h>
+
 NeuralNetwork::NeuralNetwork()
 {
 
@@ -42,10 +44,19 @@ int NeuralNetwork::ProcessData()
   {
     for (temp_i = 0; temp_i < temp_i_max; ++temp_i)
     {
-      input_neurons[temp_i]->SetResult(Normalize(input_data[temp_i][temp_j], min_max[temp_i]));
+      input_neurons[temp_i]->SetResult(input_data[temp_i][temp_j]);
     }
     result = Process();
     results.push_back(result);
+  }
+
+  if (results.size() == expected_results.size())
+  {
+    for (unsigned int i = 0; i < results.size(); ++i)
+    {
+      result = abs(results[i] - expected_results[i]);
+      errors.push_back(result);
+    }
   }
 
   return 0;
@@ -133,6 +144,14 @@ int NeuralNetwork::AddData(std::vector<double>& i_data)
   return 0;
 }
 
+int NeuralNetwork::AddData(std::vector<double>& i_data, double i_expected_result)
+{
+  AddData(i_data);
+  expected_results.push_back(i_expected_result);
+
+  return 0;
+}
+
 int NeuralNetwork::LevelAdd()
 {
   std::vector<std::shared_ptr<NeuronBase>> new_level;
@@ -159,36 +178,3 @@ double NeuralNetwork::RandGenWeight()
   return result;
 }
 
-double NeuralNetwork::Normalize(double i_data, MinMax &i_min_max)
-{
-  return (i_data - i_min_max.minimum) / (i_min_max.maximum - i_min_max.minimum);
-}
-
-int NeuralNetwork::CalculateNormRatio()
-{
-  int temp_i;
-  int temp_j;
-  int temp_i_max = input_data.size();
-  int temp_j_max;
-  double temp_data_min = DBL_MAX;
-  double temp_data_max = DBL_MIN;
-
-  min_max.clear();
-  for (temp_i = 0; temp_i < temp_i_max; ++temp_i)
-  {
-    temp_j_max = input_data[temp_i].size();
-    for (temp_j = 0; temp_j < temp_j_max; ++temp_j)
-    {
-      if (input_data[temp_i][temp_j] < temp_data_min)
-      {
-        temp_data_min = input_data[temp_i][temp_j];
-      }
-      if (input_data[temp_i][temp_j] > temp_data_max)
-      {
-        temp_data_max = input_data[temp_i][temp_j];
-      }
-    }
-    min_max.push_back(MinMax(temp_data_min, temp_data_max));
-  }
-  return 0;
-}
