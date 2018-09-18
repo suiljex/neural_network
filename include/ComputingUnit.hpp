@@ -11,18 +11,30 @@
 class ComputingUnit
 {
 public:
+
   ComputingUnit();
+
   double Process();
-  int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
-  int AddDataToInput(std::vector<double>& i_data);
-  unsigned int GetInputNeuronsAmount()
-  {
-    return input_neurons.size();
-  }
+
+  int InitNeuralNetworkRandType1
+  (
+      std::vector<std::shared_ptr<NeuronBase>> i_input_neurons
+    , std::vector<int> i_network_config
+  );
+
+  int AddDataToInput
+  (
+      std::vector<double>& i_data
+  );
+
+  unsigned int GetInputNeuronsAmount();
 
 protected:
+
   int LevelAdd();
+
   int LevelDel();
+
   double RandGenWeight();
 
   std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;

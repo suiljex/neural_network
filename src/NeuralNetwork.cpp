@@ -13,6 +13,7 @@ int NeuralNetwork::ProcessData()
   int index = 0;
   std::vector<double> temp_input_data;
 
+  storage_unit.CalculateLimits();
   temp_input_data = storage_unit.GetInputDataByIndex(index);
   while (temp_input_data.size() == computing_unit.GetInputNeuronsAmount())
   {
@@ -52,5 +53,32 @@ std::vector<double> NeuralNetwork::GetResults()
 std::vector<double> NeuralNetwork::GetErrors()
 {
   return storage_unit.GetErrors();
+}
+
+double NeuralNetwork::GetErrorM()
+{
+  std::vector<double> temp_errors = storage_unit.GetErrors();
+  double error_m = 0;
+  for (auto it = temp_errors.begin(); it != temp_errors.end(); ++it)
+  {
+    error_m += (*it);
+  }
+  error_m /= temp_errors.size();
+  return error_m;
+}
+
+std::vector<double> NeuralNetwork::GetExpResults()
+{
+  return storage_unit.GetExpResults();
+}
+
+std::vector<DB> NeuralNetwork::GetInputData()
+{
+  return storage_unit.GetInputData();
+}
+
+std::vector<double> NeuralNetwork::GetInputDataByIndex(int i_index)
+{
+  return storage_unit.GetInputDataByIndex(i_index);
 }
 

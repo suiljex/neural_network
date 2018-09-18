@@ -12,15 +12,44 @@
 class NeuralNetwork
 {
 public:
+
   NeuralNetwork();
 
   int ProcessData();
-  int AddData(std::vector<double>& i_data);
-  int AddData(std::vector<double>& i_data, double i_expected_result);
-  int InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config);
+
+  int AddData
+  (
+      std::vector<double>& i_data
+  );
+
+  int AddData
+  (
+      std::vector<double>& i_data
+    , double i_expected_result
+  );
+
+  int InitNeuralNetworkRandType1
+  (
+      std::vector<std::shared_ptr<NeuronBase>> i_input_neurons
+    , std::vector<int> i_network_config
+  );
+
   int GetInputNeuronsAmount();
+
   std::vector<double> GetResults();
+
   std::vector<double> GetErrors();
+
+  double GetErrorM();
+
+  std::vector<double> GetExpResults();
+
+  std::vector<DB> GetInputData();
+
+  std::vector<double> GetInputDataByIndex
+  (
+      int i_index
+  );
 
 protected:
 

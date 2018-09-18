@@ -5,6 +5,11 @@ Normalizer::Normalizer()
 
 }
 
+Normalizer::Normalizer(MinMax i_limits)
+{
+  limits = i_limits;
+}
+
 int Normalizer::SetLimits(MinMax i_limits)
 {
   limits = i_limits;
@@ -37,17 +42,17 @@ MinMax Normalizer::GetLimits()
 int Normalizer::CalculateLimits(std::vector<double> &i_data)
 {
   double temp_data_min = DBL_MAX;
-  double temp_data_max = DBL_MIN;
+  double temp_data_max = -DBL_MAX;
 
   for (auto it = i_data.begin(); it != i_data.end(); ++it)
   {
-    if (*it < temp_data_min)
+    if ((*it) < temp_data_min)
     {
-      temp_data_min = *it;
+      temp_data_min = (*it);
     }
-    if (*it > temp_data_max)
+    if ((*it) > temp_data_max)
     {
-      temp_data_max = *it;
+      temp_data_max = (*it);
     }
   }
 
@@ -84,4 +89,14 @@ int Normalizer::NormalizeDataUp(std::vector<double> &d_data)
     }
   }
   return 0;
+}
+
+double Normalizer::NormalizeSingleDataDown(double i_data)
+{
+  return (i_data - limits.minimum) / (limits.maximum - limits.minimum);
+}
+
+double Normalizer::NormalizeSingleDataUp(double i_data)
+{
+  return i_data * (limits.maximum - limits.minimum) + limits.minimum;
 }

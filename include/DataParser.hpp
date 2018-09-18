@@ -11,22 +11,55 @@
 class DataParser
 {
 public:
+
   DataParser();
 
   std::vector<std::vector<double>> GetInputData();
+
   std::vector<double> GetExpectedResults();
 
-  int SetFilenameInput(std::string& i_filename);
-  int SetFilenameOutput(std::string& i_filename);
+  int SetFilenameInput
+  (
+      std::string& i_filename
+  );
+
+  int SetFilenameOutput
+  (
+      std::string& i_filename
+  );
+
   std::string GetFilenameInput();
+
   std::string GetFilenameOutput();
-  int InputFileParse(NeuralNetwork& d_neural_network);
+
+  int InputFileParse
+  (
+      NeuralNetwork& d_neural_network
+  );
 
 protected:
-  int PutInputDataIntoNetwork(NeuralNetwork& d_neural_network);
-  int GetNextParameter(std::string& d_line, std::string& o_parameter);
-  void SkipWhiteSpaces(std::string& o_string);
-  bool IsNumber(const char* i_str);
+
+  int PutInputDataIntoNetwork
+  (
+      NeuralNetwork& d_neural_network
+  );
+
+  int GetNextParameter
+  (
+      std::string& d_line
+    , std::string& o_parameter
+  );
+
+  void SkipWhiteSpaces
+  (
+      std::string& o_string
+  );
+
+  bool IsNumber
+  (
+      const char* i_str
+  );
+
   int AddLevel();
 
   std::string filename_input_data;

@@ -2,7 +2,7 @@
 
 StorageUnit::StorageUnit()
 {
-
+  results.normalizer.SetLimits(0, 200);
 }
 
 int StorageUnit::InitInputLevels(int i_levels)
@@ -65,20 +65,41 @@ std::vector<double> StorageUnit::GetErrors()
 {
   errors.clear();
   double result;
-  if (results.data.size() == expected_results.size())
+  DB temp_results = results;
+  temp_results.NormalizeUp();
+  if (temp_results.data.size() == expected_results.size())
   {
-    for (unsigned int i = 0; i < results.data.size(); ++i)
+    for (unsigned int i = 0; i < temp_results.data.size(); ++i)
     {
-      result = abs(results.data[i] - expected_results[i]);
+      result = abs(temp_results.data[i] - expected_results[i]);
       errors.push_back(result);
     }
   }
   return errors;
 }
 
+std::vector<double> StorageUnit::GetExpResults()
+{
+  return expected_results;
+}
+
+std::vector<DB> StorageUnit::GetInputData()
+{
+  return input_data;
+}
+
+int StorageUnit::CalculateLimits()
+{
+  for (auto it = input_data.begin(); it != input_data.end(); ++it)
+  {
+    it->CalculateLimits();
+  }
+  return 0;
+}
+
 DataBoundle::DataBoundle()
 {
-  normalizer.SetLimits(-100, 100);
+
 }
 
 int DataBoundle::NormalizeDown()

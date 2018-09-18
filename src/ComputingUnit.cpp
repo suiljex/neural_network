@@ -7,7 +7,7 @@ ComputingUnit::ComputingUnit()
 
 double ComputingUnit::Process()
 {
-  double result;
+  double result = 0;
 
   int i = 0;
   int j = 0;
@@ -104,6 +104,11 @@ int ComputingUnit::AddDataToInput(std::vector<double>& i_data)
     }
   }
   return 0;
+}
+
+unsigned int ComputingUnit::GetInputNeuronsAmount()
+{
+  return input_neurons.size();
 }
 
 int ComputingUnit::LevelAdd()
