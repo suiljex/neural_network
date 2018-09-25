@@ -53,15 +53,15 @@ double ComputingUnit::Train(double i_exp_res)
   return result;
 }
 
-int ComputingUnit::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config)
+int ComputingUnit::InitNeuralNetworkRandType1(std::vector<NeuronBase*> i_input_neurons, std::vector<int> i_network_config)
 {
-  std::vector<std::shared_ptr<NeuronBase>> pointers;
+  std::vector<NeuronBase*> pointers;
   int temp_i;
   //int temp_j;
 
   input_neurons = i_input_neurons;
 
-  std::vector<std::shared_ptr<NeuronBase>>::iterator ik = i_input_neurons.begin();
+  std::vector<NeuronBase*>::iterator ik = i_input_neurons.begin();
   for (; ik != i_input_neurons.end(); ++ik)
   {
     pointers.push_back(*ik);
@@ -76,7 +76,7 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
     {
       std::shared_ptr<NeuronBase> new_neuron(new NeuronHidden);
 
-      std::vector<std::shared_ptr<NeuronBase>>::iterator ij = pointers.begin();
+      std::vector<NeuronBase*>::iterator ij = pointers.begin();
       for (; ij != pointers.end(); ++ij)
       {
         NConnection new_connection;
@@ -94,7 +94,7 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
     std::vector<std::shared_ptr<NeuronBase>>::iterator il = levels[temp_i].begin();
     for (; il != levels[temp_i].end(); ++il)
     {
-      pointers.push_back(*il);
+      pointers.push_back(il->get());
     }
   }
 
@@ -103,7 +103,7 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<Neuron
 
   std::shared_ptr<NeuronBase> output_neuron(new NeuronOutput);
 
-  std::vector<std::shared_ptr<NeuronBase>>::iterator im = pointers.begin();
+  std::vector<NeuronBase*>::iterator im = pointers.begin();
   for (; im != pointers.end(); ++im)
   {
     NConnection new_connection;

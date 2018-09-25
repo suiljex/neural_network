@@ -55,7 +55,7 @@ int NeuralNetwork::AddData(std::vector<double>& i_data, double i_expected_result
   return 0;
 }
 
-int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase> > i_input_neurons, std::vector<int> i_network_config)
+int NeuralNetwork::InitNeuralNetworkRandType1(std::vector<NeuronBase*> i_input_neurons, std::vector<int> i_network_config)
 {
   storage_unit.InitInputLevels(i_input_neurons.size());
   computing_unit.InitNeuralNetworkRandType1(i_input_neurons, i_network_config);

@@ -27,7 +27,8 @@ int NeuronHidden::AddConnection(NConnection i_connection)
 {
   connections_parent.push_back(i_connection);
   NConnection back_connection;
-  back_connection.source_pointer.reset(this);
+  //back_connection.source_pointer.reset(this);
+  back_connection.source_pointer = this;
   i_connection.source_pointer->AddConnectionBack(back_connection);
   return 0;
 }

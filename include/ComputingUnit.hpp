@@ -19,7 +19,7 @@ public:
 
   int InitNeuralNetworkRandType1
   (
-      std::vector<std::shared_ptr<NeuronBase>> i_input_neurons
+      std::vector<NeuronBase*> i_input_neurons
     , std::vector<int> i_network_config
   );
 
@@ -39,7 +39,7 @@ protected:
   double RandGenWeight();
 
   std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
-  std::vector<std::shared_ptr<NeuronBase>> input_neurons;
+  std::vector<NeuronBase*> input_neurons;
 };
 
 #endif // COMPUTINGUNIT_HPP

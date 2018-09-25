@@ -20,7 +20,8 @@ typedef struct NeuronConnection
   }
 
   int source_id;
-  std::shared_ptr<NeuronBase> source_pointer;
+  //std::weak_ptr<NeuronBase> source_pointer;
+  NeuronBase* source_pointer;
   double weight;
   double delta_weight;
 

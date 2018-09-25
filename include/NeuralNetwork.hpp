@@ -32,7 +32,7 @@ public:
 
   int InitNeuralNetworkRandType1
   (
-      std::vector<std::shared_ptr<NeuronBase>> i_input_neurons
+      std::vector<NeuronBase*> i_input_neurons
     , std::vector<int> i_network_config
   );
 

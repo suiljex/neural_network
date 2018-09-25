@@ -12,11 +12,11 @@ int main(int /*argc*/, char **/*argv*/)
   std::string input_file("test_data.txt");
   d_parser.SetFilenameInput(input_file);
 
-  vector<std::shared_ptr<NeuronBase>> input_neurons;
-  std::shared_ptr<NeuronBase> input_1(new NeuronInput);
-  std::shared_ptr<NeuronBase> input_2(new NeuronInput);
-  input_neurons.push_back(input_1);
-  input_neurons.push_back(input_2);
+  vector<NeuronBase*> input_neurons;
+  std::unique_ptr<NeuronBase> input_1(new NeuronInput);
+  std::unique_ptr<NeuronBase> input_2(new NeuronInput);
+  input_neurons.push_back(input_1.get());
+  input_neurons.push_back(input_2.get());
 
   std::vector<double> data;
   std::vector<double> errors;
@@ -33,7 +33,7 @@ int main(int /*argc*/, char **/*argv*/)
   n_net.InitNeuralNetworkRandType1(input_neurons, config);
   d_parser.InputFileParse(n_net);
 
-  int max_steps = 100;
+  int max_steps = 500;
   for (int step = 0; step < max_steps; ++step)
   {
     n_net.TrainNetwork();
