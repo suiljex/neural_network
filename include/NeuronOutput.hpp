@@ -16,23 +16,37 @@ public:
       NConnection i_connection
   );
 
+  int AddConnectionBack
+  (
+      NConnection i_connection
+  );
+
   double GetResult();
+
+  double GetD();
 
   int SetResult
   (
       double i_result
   );
 
-private:
+  int Train
+  (
+      double i_d
+  );
+
+  int UpdateWeights();
+
+protected:
 
   double ProcFunc
   (
       double i_input_X
   );
 
-  int id;
-  double result;
-  std::vector<NConnection> connections;
+  //int id;
+  //double result;
+  //std::vector<NConnection> connections;
 };
 
 #endif // NEURONOUTPUT_HPP

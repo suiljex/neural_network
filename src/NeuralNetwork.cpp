@@ -13,12 +13,34 @@ int NeuralNetwork::ProcessData()
   int index = 0;
   std::vector<double> temp_input_data;
 
+  storage_unit.ResetResults();
   storage_unit.CalculateLimits();
   temp_input_data = storage_unit.GetInputDataByIndex(index);
   while (temp_input_data.size() == computing_unit.GetInputNeuronsAmount())
   {
     computing_unit.AddDataToInput(temp_input_data);
     result = computing_unit.Process();
+    storage_unit.AddResult(result);
+
+    temp_input_data = storage_unit.GetInputDataByIndex(++index);
+  }
+
+  return 0;
+}
+
+int NeuralNetwork::TrainNetwork()
+{
+  double result = 0;
+  int index = 0;
+  std::vector<double> temp_input_data;
+
+  storage_unit.ResetResults();
+  storage_unit.CalculateLimits();
+  temp_input_data = storage_unit.GetInputDataByIndex(index);
+  while (temp_input_data.size() == computing_unit.GetInputNeuronsAmount())
+  {
+    computing_unit.AddDataToInput(temp_input_data);
+    result = computing_unit.Train(storage_unit.GetExpectedResultByIndex(index));
     storage_unit.AddResult(result);
 
     temp_input_data = storage_unit.GetInputDataByIndex(++index);

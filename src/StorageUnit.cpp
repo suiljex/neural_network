@@ -35,6 +35,17 @@ std::vector<double> StorageUnit::GetInputDataByIndex(int i_index)
   return temp_input_data;
 }
 
+double StorageUnit::GetExpectedResultByIndex(int i_index)
+{
+  double temp_expected_result = 0;
+  if (i_index < expected_results.size())
+  {
+    temp_expected_result = expected_results[i_index];
+  }
+
+  return temp_expected_result;
+}
+
 int StorageUnit::AddData(std::vector<double> &i_data, double i_expected_result)
 {
   expected_results.push_back(i_expected_result);
@@ -51,6 +62,13 @@ int StorageUnit::AddData(std::vector<double> &i_data, double i_expected_result)
 int StorageUnit::AddResult(double i_result)
 {
   results.data.push_back(i_result);
+  return 0;
+}
+
+int StorageUnit::ResetResults()
+{
+  results.data.clear();
+  errors.clear();
   return 0;
 }
 

@@ -37,6 +37,11 @@ public:
       int i_index
   );
 
+  double GetExpectedResultByIndex
+  (
+      int i_index
+  );
+
   int AddData
   (
       std::vector<double>& i_data
@@ -47,6 +52,8 @@ public:
   (
       double i_result
   );
+
+  int ResetResults();
 
   std::vector<double> GetResults();
 

@@ -17,6 +17,8 @@ public:
 
   int ProcessData();
 
+  int TrainNetwork();
+
   int AddData
   (
       std::vector<double>& i_data

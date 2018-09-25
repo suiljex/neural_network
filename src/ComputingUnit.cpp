@@ -29,6 +29,30 @@ double ComputingUnit::Process()
   return result;
 }
 
+double ComputingUnit::Train(double i_exp_res)
+{
+  double result = 0;
+
+  result = Process();
+
+  int i = 0;
+  int j = 0;
+
+  int max_i = levels.size();
+  int max_j;
+
+  for (i = max_i - 1; i >= 0; --i)
+  {
+    max_j = levels[i].size();
+    for (j = max_j - 1; j >= 0; --j)
+    {
+      levels[i][j]->Train(i_exp_res);
+    }
+  }
+
+  return result;
+}
+
 int ComputingUnit::InitNeuralNetworkRandType1(std::vector<std::shared_ptr<NeuronBase>> i_input_neurons, std::vector<int> i_network_config)
 {
   std::vector<std::shared_ptr<NeuronBase>> pointers;

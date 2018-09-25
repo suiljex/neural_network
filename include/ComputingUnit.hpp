@@ -15,6 +15,7 @@ public:
   ComputingUnit();
 
   double Process();
+  double Train(double i_exp_res);
 
   int InitNeuralNetworkRandType1
   (
