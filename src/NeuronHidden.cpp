@@ -10,12 +10,11 @@ int NeuronHidden::Process()
 {
   double input_X = 0;
 
-  std::vector<NConnection>::iterator it = connections_parent.begin();
-  for (; it != connections_parent.end(); ++it)
+  for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
   {
-    if (it->source_pointer != nullptr)
+    if ((*it)->ptr_src != nullptr)
     {
-      input_X += it->source_pointer->GetResult() * it->weight;
+      input_X += (*it)->ptr_src->GetResult() * (*it)->weight;
     }
   }
   result = ProcFunc(input_X);
@@ -23,19 +22,17 @@ int NeuronHidden::Process()
   return 0;
 }
 
-int NeuronHidden::AddConnection(NConnection i_connection)
+int NeuronHidden::AddConnection(NConnection* i_connection)
 {
-  connections_parent.push_back(i_connection);
-  NConnection back_connection;
-  //back_connection.source_pointer.reset(this);
-  back_connection.source_pointer = this;
-  i_connection.source_pointer->AddConnectionBack(back_connection);
+  i_connection->ptr_dst = this;
+  connections_in.push_back(i_connection);
+  i_connection->ptr_src->AddConnectionBack(i_connection);
   return 0;
 }
 
-int NeuronHidden::AddConnectionBack(NConnection i_connection)
+int NeuronHidden::AddConnectionBack(NConnection* i_connection)
 {
-  connections_child.push_back(i_connection);
+  connections_out.push_back(i_connection);
   return 0;
 }
 
@@ -58,9 +55,9 @@ int NeuronHidden::Train(double)
 {
   double d_in_sum = 0;
 
-  for (auto it = connections_child.begin(); it != connections_child.end(); ++it)
+  for (auto it = connections_out.begin(); it != connections_out.end(); ++it)
   {
-    d_in_sum += it->source_pointer->GetD();
+    d_in_sum += (*it)->ptr_dst->GetD() * (*it)->weight;
   }
 
   d = result * (1 - result) * d_in_sum;
@@ -72,11 +69,11 @@ int NeuronHidden::UpdateWeights()
 {
   double delta_w;
 
-  for (auto it = connections_parent.begin(); it != connections_parent.end(); ++it)
+  for (auto it = connections_out.begin(); it != connections_out.end(); ++it)
   {
-    delta_w = alpha * (it->delta_weight) + (1 - alpha) * velocity * d * (it->source_pointer->GetResult());
-    it->weight -= delta_w;
-    it->delta_weight = delta_w;
+    delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
+    (*it)->weight += delta_w;
+    (*it)->delta_weight = delta_w;
   }
   return 0;
 }

@@ -40,6 +40,7 @@ protected:
 
   std::vector<std::vector<std::shared_ptr<NeuronBase>>> levels;
   std::vector<NeuronBase*> input_neurons;
+  std::vector<std::shared_ptr<NeuronConnection>> connections;
 };
 
 #endif // COMPUTINGUNIT_HPP

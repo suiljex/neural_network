@@ -13,12 +13,12 @@ public:
 
   int AddConnection
   (
-      NConnection i_connection
+      NConnection* i_connection
   );
 
   int AddConnectionBack
   (
-      NConnection i_connection
+      NConnection* i_connection
   );
 
   double GetResult();

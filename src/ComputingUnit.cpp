@@ -76,14 +76,15 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<NeuronBase*> i_input_n
     {
       std::shared_ptr<NeuronBase> new_neuron(new NeuronHidden);
 
-      std::vector<NeuronBase*>::iterator ij = pointers.begin();
-      for (; ij != pointers.end(); ++ij)
+      for (auto ij = pointers.begin(); ij != pointers.end(); ++ij)
       {
-        NConnection new_connection;
-        new_connection.source_pointer = *ij;
-        new_connection.weight = RandGenWeight();
+        std::shared_ptr<NConnection> new_connection(new NConnection);
 
-        new_neuron->AddConnection(new_connection);
+        new_connection->ptr_src = *ij;
+        new_connection->weight = RandGenWeight();
+
+        new_neuron->AddConnection(new_connection.get());
+        connections.push_back(new_connection);
       }
 
       levels[temp_i].push_back(new_neuron);
@@ -91,8 +92,7 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<NeuronBase*> i_input_n
 
     pointers.clear();
 
-    std::vector<std::shared_ptr<NeuronBase>>::iterator il = levels[temp_i].begin();
-    for (; il != levels[temp_i].end(); ++il)
+    for (auto il = levels[temp_i].begin(); il != levels[temp_i].end(); ++il)
     {
       pointers.push_back(il->get());
     }
@@ -103,14 +103,15 @@ int ComputingUnit::InitNeuralNetworkRandType1(std::vector<NeuronBase*> i_input_n
 
   std::shared_ptr<NeuronBase> output_neuron(new NeuronOutput);
 
-  std::vector<NeuronBase*>::iterator im = pointers.begin();
-  for (; im != pointers.end(); ++im)
+  for (auto im = pointers.begin(); im != pointers.end(); ++im)
   {
-    NConnection new_connection;
-    new_connection.source_pointer = *im;
-    new_connection.weight = RandGenWeight();
+    std::shared_ptr<NConnection> new_connection(new NConnection);
 
-    output_neuron->AddConnection(new_connection);
+    new_connection->ptr_src = *im;
+    new_connection->weight = RandGenWeight();
+
+    output_neuron->AddConnection(new_connection.get());
+    connections.push_back(new_connection);
   }
 
   levels[temp_i].push_back(output_neuron);

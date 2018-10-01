@@ -16,12 +16,14 @@ typedef struct NeuronConnection
     source_id = 0;
     weight = 0;
     delta_weight = 0;
-    source_pointer = nullptr;
+    ptr_src = nullptr;
+    ptr_dst = nullptr;
   }
 
   int source_id;
   //std::weak_ptr<NeuronBase> source_pointer;
-  NeuronBase* source_pointer;
+  NeuronBase* ptr_src;
+  NeuronBase* ptr_dst;
   double weight;
   double delta_weight;
 
@@ -33,8 +35,8 @@ public:
   NeuronBase(){}
 
   virtual int Process() = 0;
-  virtual int AddConnection(NConnection i_connection) = 0;
-  virtual int AddConnectionBack(NConnection i_connection) = 0;
+  virtual int AddConnection(NConnection* i_connection) = 0;
+  virtual int AddConnectionBack(NConnection* i_connection) = 0;
   virtual double GetResult() = 0;
   virtual double GetD() = 0;
   virtual int SetResult(double i_result) = 0;
@@ -49,8 +51,8 @@ protected:
   double result;
   //double d_in_sum;
   double d;
-  std::vector<NConnection> connections_parent;
-  std::vector<NConnection> connections_child;
+  std::vector<NConnection*> connections_in;
+  std::vector<NConnection*> connections_out;
 };
 
 #endif // NEURONBASE_HPP
