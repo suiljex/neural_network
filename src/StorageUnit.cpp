@@ -2,7 +2,7 @@
 
 StorageUnit::StorageUnit()
 {
-  results.normalizer.SetLimits(0, 200);
+  results.normalizer.SetLimits(-20, 20);
 }
 
 int StorageUnit::InitInputLevels(int i_levels)
@@ -40,7 +40,7 @@ double StorageUnit::GetExpectedResultByIndex(int i_index)
   double temp_expected_result = 0;
   if (i_index < expected_results.size())
   {
-    temp_expected_result = expected_results[i_index];
+    temp_expected_result = results.normalizer.NormalizeSingleDataDown(expected_results[i_index]);
   }
 
   return temp_expected_result;

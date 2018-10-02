@@ -43,26 +43,26 @@ int main(int /*argc*/, char **/*argv*/)
     exp_res = n_net.GetExpResults();
     in_data = n_net.GetInputData();
 
-#define LESS_OUTPUT
+//#define LESS_OUTPUT
 #ifndef LESS_OUTPUT
     std::vector<double> temp_in;
     for (unsigned int i = 0; i < data.size(); ++i)
     {
       temp_in = n_net.GetInputDataByIndex(i);
-      cout << step << "@ ";
+      cout << step << "@\t";
       for (unsigned int j = 0; j < temp_in.size(); ++j)
       {
         cout << temp_in[j];
         if (j + 1 != temp_in.size())
         {
-          cout << "|";
+          cout << "\t|\t";
         }
         else
         {
-          cout << ":";
+          cout << "\t:\t";
         }
       }
-      cout << exp_res[i] << " (" << data[i] << ")" << " [" << errors[i] << "]" << endl;
+      cout << exp_res[i] << "\t(\t" << data[i] << "\t)\t" << "\t[\t" << errors[i] << "\t]\t" << endl;
     }
 #endif
     cout << step << "@ {" << error_m << "}"  << endl;
