@@ -33,7 +33,7 @@ int main(int /*argc*/, char **/*argv*/)
   n_net.InitNeuralNetworkRandType1(input_neurons, config);
   d_parser.InputFileParse(n_net);
 
-  int max_steps = 500;
+  int max_steps = 10500;
   for (int step = 0; step < max_steps; ++step)
   {
     n_net.TrainNetwork();
@@ -43,7 +43,7 @@ int main(int /*argc*/, char **/*argv*/)
     exp_res = n_net.GetExpResults();
     in_data = n_net.GetInputData();
 
-//#define LESS_OUTPUT
+#define LESS_OUTPUT
 #ifndef LESS_OUTPUT
     std::vector<double> temp_in;
     for (unsigned int i = 0; i < data.size(); ++i)

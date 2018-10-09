@@ -46,6 +46,7 @@ public:
 protected:
 
   virtual double ProcFunc(double i_input_X) = 0;
+  virtual double DerivativeFunc(double i_input_X) = 0;
 
   int id;
   double result;

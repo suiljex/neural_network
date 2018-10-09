@@ -43,6 +43,10 @@ protected:
   (
       double i_input_X
   );
+  double DerivativeFunc
+  (
+      double i_input_X
+  );
 
   //int id;
   //double result;

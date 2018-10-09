@@ -27,6 +27,11 @@ double NeuronOutput::ProcFunc(double i_input_X)
   //return i_input_X;
 }
 
+double NeuronOutput::DerivativeFunc(double i_input_X)
+{
+  return ProcFunc(i_input_X) * (1 - ProcFunc(i_input_X));
+}
+
 double NeuronOutput::GetResult()
 {
   return result;
@@ -44,7 +49,8 @@ int NeuronOutput::SetResult(double /*i_result*/)
 
 int NeuronOutput::Train(double i_d)
 {
-  d = result * (1 - result) * (i_d - result);
+  //d = result * (1 - result) * (i_d - result);
+  d = DerivativeFunc(result) * (i_d - result);
   UpdateWeights();
   return 0;
 }

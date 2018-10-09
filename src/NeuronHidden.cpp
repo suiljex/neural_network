@@ -60,7 +60,8 @@ int NeuronHidden::Train(double)
     d_in_sum += (*it)->ptr_dst->GetD() * (*it)->weight;
   }
 
-  d = result * (1 - result) * d_in_sum;
+  d = DerivativeFunc(result) * d_in_sum;
+  //d = result * (1 - result) * d_in_sum;
   UpdateWeights();
   return 0;
 }
@@ -81,4 +82,9 @@ int NeuronHidden::UpdateWeights()
 double NeuronHidden::ProcFunc(double i_input_X)
 {
   return (1. / (1. + exp(-1. * alpha * i_input_X)));
+}
+
+double NeuronHidden::DerivativeFunc(double i_input_X)
+{
+  return ProcFunc(i_input_X) * (1 - ProcFunc(i_input_X));
 }

@@ -61,3 +61,8 @@ double NeuronInput::ProcFunc(double /*i_input_X*/)
 {
   return 0;
 }
+
+double NeuronInput::DerivativeFunc(double i_input_X)
+{
+  return 0;
+}
