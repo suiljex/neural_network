@@ -46,7 +46,19 @@ double ComputingUnit::Train(double i_exp_res)
     max_j = levels[i].size();
     for (j = max_j - 1; j >= 0; --j)
     {
-      levels[i][j]->Train(i_exp_res);
+      levels[i][j]->CalculateGradient(i_exp_res);
+    }
+  }
+
+  max_i = levels.size();
+  max_j;
+
+  for (i = 0; i < max_i; ++i)
+  {
+    max_j = levels[i].size();
+    for (j = 0; j < max_j; ++j)
+    {
+      levels[i][j]->UpdateWeights();
     }
   }
 

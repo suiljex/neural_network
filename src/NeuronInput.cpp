@@ -37,7 +37,7 @@ int NeuronInput::SetResult(double i_result)
   return 0;
 }
 
-int NeuronInput::Train(double i_d)
+int NeuronInput::CalculateGradient(double i_d)
 {
   //    d_in_sum += i_d;
   //    d = Process() * (1 - Process()) * d_in_sum;
@@ -62,7 +62,7 @@ double NeuronInput::ProcFunc(double /*i_input_X*/)
   return 0;
 }
 
-double NeuronInput::DerivativeFunc(double i_input_X)
+double NeuronInput::ProcFuncDerivative(double i_input_X)
 {
   return 0;
 }

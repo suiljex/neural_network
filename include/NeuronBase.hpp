@@ -40,18 +40,20 @@ public:
   virtual double GetResult() = 0;
   virtual double GetD() = 0;
   virtual int SetResult(double i_result) = 0;
-  virtual int Train(double i_expect) = 0;
+  virtual int CalculateGradient(double i_expect) = 0;
   virtual int UpdateWeights() = 0;
 
 protected:
 
+  virtual double CalculateSum() = 0;
   virtual double ProcFunc(double i_input_X) = 0;
-  virtual double DerivativeFunc(double i_input_X) = 0;
+  virtual double ProcFuncDerivative(double i_input_X) = 0;
 
   int id;
   double result;
   //double d_in_sum;
   double d;
+  double input_X;
   std::vector<NConnection*> connections_in;
   std::vector<NConnection*> connections_out;
 };

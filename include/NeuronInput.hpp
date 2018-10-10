@@ -30,7 +30,7 @@ public:
       double i_result
   );
 
-  int Train
+  int CalculateGradient
   (
       double i_d
   );
@@ -39,11 +39,16 @@ public:
 
 protected:
 
+  double CalculateSum()
+  {
+    return 0;
+  }
+
   double ProcFunc
   (
       double i_input_X
   );
-  double DerivativeFunc
+  double ProcFuncDerivative
   (
       double i_input_X
   );

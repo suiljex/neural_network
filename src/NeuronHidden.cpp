@@ -8,15 +8,7 @@ NeuronHidden::NeuronHidden()
 
 int NeuronHidden::Process()
 {
-  double input_X = 0;
-
-  for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
-  {
-    if ((*it)->ptr_src != nullptr)
-    {
-      input_X += (*it)->ptr_src->GetResult() * (*it)->weight;
-    }
-  }
+  double input_X = CalculateSum();
   result = ProcFunc(input_X);
   //d_in_sum = 0;
   return 0;
@@ -51,7 +43,7 @@ int NeuronHidden::SetResult(double /*i_result*/)
   return 0;
 }
 
-int NeuronHidden::Train(double)
+int NeuronHidden::CalculateGradient(double)
 {
   double d_in_sum = 0;
 
@@ -59,10 +51,10 @@ int NeuronHidden::Train(double)
   {
     d_in_sum += (*it)->ptr_dst->GetD() * (*it)->weight;
   }
-
-  d = DerivativeFunc(result) * d_in_sum;
+  d = d_in_sum;
+//  d = ProcFuncDerivative(result) * d_in_sum;
   //d = result * (1 - result) * d_in_sum;
-  UpdateWeights();
+  //UpdateWeights();
   return 0;
 }
 
@@ -70,9 +62,11 @@ int NeuronHidden::UpdateWeights()
 {
   double delta_w;
 
-  for (auto it = connections_out.begin(); it != connections_out.end(); ++it)
+  for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
   {
-    delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
+    //delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
+
+    delta_w = velocity * d * ProcFuncDerivative(input_X) * ((*it)->ptr_src->GetResult());
     (*it)->weight += delta_w;
     (*it)->delta_weight = delta_w;
   }
@@ -84,7 +78,7 @@ double NeuronHidden::ProcFunc(double i_input_X)
   return (1. / (1. + exp(-1. * alpha * i_input_X)));
 }
 
-double NeuronHidden::DerivativeFunc(double i_input_X)
+double NeuronHidden::ProcFuncDerivative(double i_input_X)
 {
   return ProcFunc(i_input_X) * (1 - ProcFunc(i_input_X));
 }
