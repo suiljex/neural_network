@@ -25,7 +25,7 @@ int main(int /*argc*/, char **/*argv*/)
   double error_m = 0;
 
   vector<int> config;
-  config.push_back(3);
+  config.push_back(2);
   config.push_back(2);
   //config.push_back(3);
   //config.push_back(2);

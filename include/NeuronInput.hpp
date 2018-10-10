@@ -39,10 +39,7 @@ public:
 
 protected:
 
-  double CalculateSum()
-  {
-    return 0;
-  }
+  double CalculateSum();
 
   double ProcFunc
   (

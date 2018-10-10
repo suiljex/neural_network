@@ -5,7 +5,7 @@
 #include <memory>
 
 const double alpha = 0.5;
-const double velocity = 0.1;
+const double velocity = 0.5;
 
 class NeuronBase;
 

@@ -46,14 +46,22 @@ int NeuronInput::CalculateGradient(double i_d)
 
 int NeuronInput::UpdateWeights()
 {
+  double gradient;
   double delta_w;
 
   for (auto it = connections_out.begin(); it != connections_out.end(); ++it)
   {
-    delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
+    gradient = result * (*it)->ptr_dst->GetD();
+    delta_w = velocity * gradient + alpha * ((*it)->delta_weight);
+
     (*it)->weight += delta_w;
     (*it)->delta_weight = delta_w;
   }
+  return 0;
+}
+
+double NeuronInput::CalculateSum()
+{
   return 0;
 }
 

@@ -39,19 +39,7 @@ public:
 
 protected:
 
-  double CalculateSum()
-  {
-    double input_X = 0;
-
-    for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
-    {
-      if ((*it)->ptr_src != nullptr)
-      {
-        input_X += (*it)->ptr_src->GetResult() * (*it)->weight;
-      }
-    }
-    return input_X;
-  }
+  double CalculateSum();
 
   double ProcFunc
   (

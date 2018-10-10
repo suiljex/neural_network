@@ -46,6 +46,7 @@ int NeuralNetwork::TrainNetwork()
     storage_unit.AddResult(result);
 
     temp_input_data = storage_unit.GetInputDataByIndex(++index);
+    temp_exp_res = storage_unit.GetExpectedResultByIndex(index);
   }
 
   return 0;
