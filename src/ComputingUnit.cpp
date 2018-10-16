@@ -51,7 +51,6 @@ double ComputingUnit::Train(double i_exp_res)
   }
 
   max_i = levels.size();
-  max_j;
 
   for (i = 0; i < max_i; ++i)
   {

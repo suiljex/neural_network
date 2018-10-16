@@ -21,7 +21,6 @@ typedef struct NeuronConnection
   }
 
   int source_id;
-  //std::weak_ptr<NeuronBase> source_pointer;
   NeuronBase* ptr_src;
   NeuronBase* ptr_dst;
   double weight;
@@ -51,7 +50,6 @@ protected:
 
   int id;
   double result;
-  //double d_in_sum;
   double d;
   double input_X;
   std::vector<NConnection*> connections_in;

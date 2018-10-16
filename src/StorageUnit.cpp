@@ -38,7 +38,7 @@ std::vector<double> StorageUnit::GetInputDataByIndex(int i_index)
 double StorageUnit::GetExpectedResultByIndex(int i_index)
 {
   double temp_expected_result = 0;
-  if (i_index < expected_results.size())
+  if (static_cast<unsigned int>(i_index) < expected_results.size())
   {
     temp_expected_result = results.normalizer.NormalizeSingleDataDown(expected_results[i_index]);
   }

@@ -42,10 +42,8 @@ int NeuronOutput::SetResult(double /*i_result*/)
 
 int NeuronOutput::CalculateGradient(double i_d)
 {
-  d = (i_d - result) * ProcFuncDerivative(input_X);
-  //d = result * (1 - result) * (i_d - result);
-  //d = ProcFuncDerivative(result) * (i_d - result);
-  //UpdateWeights();
+  d = result * (1 - result) * (i_d - result);
+
   return 0;
 }
 
@@ -55,9 +53,8 @@ int NeuronOutput::UpdateWeights()
 
   for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
   {
-    //delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
+    delta_w = velocity * d * (*it)->ptr_src->GetResult();
 
-    delta_w = velocity * d * ProcFuncDerivative(input_X) * ((*it)->ptr_src->GetResult());
     (*it)->weight += delta_w;
     (*it)->delta_weight = delta_w;
   }

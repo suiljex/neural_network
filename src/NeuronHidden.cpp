@@ -8,7 +8,7 @@ NeuronHidden::NeuronHidden()
 
 int NeuronHidden::Process()
 {
-  double input_X = CalculateSum();
+  input_X = CalculateSum();
   result = ProcFunc(input_X);
   //d_in_sum = 0;
   return 0;
@@ -51,25 +51,19 @@ int NeuronHidden::CalculateGradient(double)
   {
     d_in_sum += (*it)->ptr_dst->GetD() * (*it)->weight;
   }
-  d = d_in_sum * ProcFuncDerivative(input_X);
-//  d = ProcFuncDerivative(result) * d_in_sum;
-  //d = result * (1 - result) * d_in_sum;
-  //UpdateWeights();
+  d = d_in_sum * (1 - result) * result;
+
   return 0;
 }
 
 int NeuronHidden::UpdateWeights()
 {
-  double gradient;
   double delta_w;
 
   for (auto it = connections_in.begin(); it != connections_in.end(); ++it)
   {
-    gradient = result * (*it)->ptr_dst->GetD();
-    delta_w = velocity * gradient + alpha * ((*it)->delta_weight);
+    delta_w = velocity * d * (*it)->ptr_src->GetResult();
 
-    //delta_w = alpha * ((*it)->delta_weight) + (1 - alpha) * velocity * (*it)->ptr_dst->GetD() * result;
-    //delta_w = velocity * d * ProcFuncDerivative(input_X) * ((*it)->ptr_src->GetResult());
     (*it)->weight += delta_w;
     (*it)->delta_weight = delta_w;
   }
